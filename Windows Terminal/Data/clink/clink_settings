@@ -1,0 +1,9 @@
+# name: Auto-update the Clink program files
+# type: enum
+# options: off,check,prompt,auto
+clink.autoupdate = off
+
+# name: Controls what startup logo to show
+# type: enum
+# options: none,full,short
+clink.logo = none

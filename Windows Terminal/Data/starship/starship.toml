@@ -1,0 +1,8 @@
+"$schema" = 'https://starship.rs/config-schema.json'
+
+format = '$all'
+
+[cmd_duration]
+min_time = 0
+show_milliseconds = true
+format = '\[⏱️[$duration]($style)\] '
