@@ -1,4 +1,8 @@
-Windows Terminal/Data/clink/clink_history*
-Windows Terminal/Data/clink/clink_error*
+Windows Terminal/Data/Windows Terminal/elevated-state.json
+Windows Terminal/Data/Windows Terminal/state.json
+
 Windows Terminal/Data/clink/clink.log
+Windows Terminal/Data/clink/clink_error*
+Windows Terminal/Data/clink/clink_history*
 Windows Terminal/Data/clink/starship.lua*
+

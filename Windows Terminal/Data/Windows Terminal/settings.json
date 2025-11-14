@@ -7,6 +7,10 @@
     "copyOnSelect": false,
     "defaultInputScope": "alphanumericHalfWidth",
     "defaultProfile": "{61c54bbd-c2c6-5271-96e7-009a87ff44bf}",
+    "disabledProfileSources": 
+    [
+        "Windows.Terminal.Azure"
+    ],
     "keybindings": 
     [
         {
@@ -32,12 +36,16 @@
     {
         "defaults": 
         {
-            "colorScheme": "One Half Dark"
+            "colorScheme": "One Half Dark",
+            "font": 
+            {
+                "face": "FiraCode Nerd Font, JetBrainsMono NF"
+            }
         },
         "list": 
         [
             {
-                "commandline": "%SystemRoot%\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -NoLogo",
+                "commandline": "%SystemRoot%\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -NoLogo -ExecutionPolicy RemoteSigned",
                 "guid": "{61c54bbd-c2c6-5271-96e7-009a87ff44bf}",
                 "hidden": false,
                 "name": "Windows PowerShell"
@@ -63,5 +71,6 @@
         ]
     },
     "schemes": [],
-    "themes": []
+    "themes": [],
+    "windowingBehavior": "useExisting"
 }
