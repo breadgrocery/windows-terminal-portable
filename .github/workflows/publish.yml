@@ -18,7 +18,7 @@ concurrency:
   cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
 
 jobs:
-  build:
+  publish:
     runs-on: windows-latest
     steps:
       # Checkout the repository
