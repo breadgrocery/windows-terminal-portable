@@ -12,5 +12,6 @@
     "compressing": "^2.0.0",
     "fs-extra": "^11.3.2"
   },
-  "packageManager": "pnpm@9.15.0"
+  "packageManager": "pnpm@9.15.0",
+  "hash": "sha256:686a2c37e80481ed101fbff6289a302f93627009dd66c3a9fb6ad86e94c5b7f8,sha256:c7d85d64cb28611a66ab1c903361a3de4c168538973892b0e3101f71768936ff,sha256:3d0ed9a2efc07fca7560d22ac622473d0b7317cda6a792842f625cb9fe58c7bc"
 }
