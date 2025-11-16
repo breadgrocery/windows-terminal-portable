@@ -1,0 +1,60 @@
+name: publish
+
+on:
+  schedule:
+    - cron: "0 13 27 * *"
+  workflow_dispatch:
+    inputs:
+      force:
+        type: boolean
+        required: true
+        default: false
+        description: Force publish to Github Release
+
+permissions: write-all
+
+concurrency:
+  group: "${{ github.workflow }} - ${{ github.head_ref || github.ref }}"
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      # Checkout the repository
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # Install pnpm based on `packageManager` in package.json
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          run_install: true
+
+      # Install Node.js
+      - name: Install Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Prepare
+        if: ${{ github.event.inputs.force }}
+        run: pnpm prepare --force
+
+      - name: Build
+        run: pnpm build
+
+      # Publish to GitHub Releases
+      - uses: softprops/action-gh-release@v2
+        with:
+          tag_name: release
+          body: Released on ${{ github.run_id }}
+          prerelease: false
+          make_latest: true
+          files: |
+            dist/*.zip
+
+      # Commit any changes made during prepare step
+      - uses: stefanzweifel/git-auto-commit-action@v7
+        with:
+          commit_message: "ci: publish release"

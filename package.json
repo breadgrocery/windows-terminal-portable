@@ -1,0 +1,16 @@
+{
+  "name": "windows-terminal-portable",
+  "private": true,
+  "scripts": {
+    "prepare": "node ./scripts/prepare.mjs",
+    "build": "node ./scripts/build.mjs"
+  },
+  "devDependencies": {
+    "@octokit/rest": "^22.0.1",
+    "@types/fs-extra": "^11.0.4",
+    "@types/node": "^24.10.1",
+    "compressing": "^2.0.0",
+    "fs-extra": "^11.3.2"
+  },
+  "packageManager": "pnpm@9.15.0"
+}
