@@ -6,7 +6,7 @@
     "copyFormatting": "none",
     "copyOnSelect": false,
     "defaultInputScope": "alphanumericHalfWidth",
-    "defaultProfile": "{61c54bbd-c2c6-5271-96e7-009a87ff44bf}",
+    "defaultProfile": "{ea8805bd-5624-4823-b7bd-5fb41c4607be}",
     "disabledProfileSources": 
     [
         "Windows.Terminal.Azure"
@@ -45,15 +45,24 @@
         "list": 
         [
             {
+                "commandline": "%ProgramFiles%\\PowerShell\\pwsh.exe -NoLogo -ExecutionPolicy RemoteSigned",
+                "guid": "{ea8805bd-5624-4823-b7bd-5fb41c4607be}",
+                "hidden": false,
+                "icon": "%ProgramFiles%\\PowerShell\\pwsh.exe",
+                "name": "PowerShell"
+            },
+            {
                 "commandline": "%SystemRoot%\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -NoLogo -ExecutionPolicy RemoteSigned",
                 "guid": "{61c54bbd-c2c6-5271-96e7-009a87ff44bf}",
                 "hidden": false,
+                "icon": "%SystemRoot%\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
                 "name": "Windows PowerShell"
             },
             {
                 "commandline": "%SystemRoot%\\System32\\cmd.exe /s /k \"\"%CLINK_DIR%\\clink_x64.exe\" inject --quiet\"",
                 "guid": "{0caa0dad-35be-5f56-a8ff-afceeeaa6101}",
                 "hidden": false,
+                "icon": "%SystemRoot%\\System32\\cmd.exe",
                 "name": "Windows Command Prompt"
             },
             {
@@ -67,6 +76,12 @@
                 "hidden": true,
                 "name": "Developer Command Prompt for VS 2022",
                 "source": "Windows.Terminal.VisualStudio"
+            },
+            {
+                "guid": "{2c4de342-38b7-51cf-b940-2309a097f518}",
+                "hidden": true,
+                "name": "Ubuntu",
+                "source": "Windows.Terminal.Wsl"
             }
         ]
     },

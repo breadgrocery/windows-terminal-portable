@@ -12,7 +12,15 @@ const apps = {
     repo: "terminal",
     predicate: (asset) => asset.name.endsWith("_x64.zip"),
     dest: () => path.resolve(appsDir, apps.terminal.name),
-    unzip: (dest) => zip.uncompress(dest, apps.terminal.dest(), { strip: 1 }),
+    unzip: (dest) => zip.uncompress(dest, apps.terminal.dest(), { strip: 1 })
+  },
+  powershell: {
+    name: "PowerShell",
+    owner: "PowerShell",
+    repo: "PowerShell",
+    predicate: (asset) => asset.name.endsWith("-win-x64.zip"),
+    dest: () => path.resolve(appsDir, apps.powershell.name),
+    unzip: (dest) => zip.uncompress(dest, apps.powershell.dest())
   },
   clink: {
     name: "clink",
@@ -20,7 +28,7 @@ const apps = {
     repo: "clink",
     predicate: (asset) => /\.\w{6}.zip$/.test(asset.name),
     dest: () => path.resolve(appsDir, apps.clink.name),
-    unzip: (dest) => zip.uncompress(dest, apps.clink.dest()),
+    unzip: (dest) => zip.uncompress(dest, apps.clink.dest())
   },
   starship: {
     name: "starship",
@@ -28,8 +36,8 @@ const apps = {
     repo: "starship",
     predicate: (asset) => asset.name.endsWith("x86_64-pc-windows-msvc.zip"),
     dest: () => path.resolve(appsDir, apps.starship.name),
-    unzip: (dest) => zip.uncompress(dest, apps.starship.dest()),
-  },
+    unzip: (dest) => zip.uncompress(dest, apps.starship.dest())
+  }
 };
 
 const shouldSkipPrepare = () => {
@@ -57,17 +65,22 @@ const prepare = async () => {
   );
 
   if (await updateHash(assets)) {
-    await Promise.all(
-      assets.map(async (asset, i) => {
-        const app = Object.values(apps)[i];
-        const dest = path.resolve("node_modules", "temp", asset.name);
-        await downloadReleaseAsset(app.owner, app.repo, asset.id, dest);
-        await app.unzip(dest);
-      })
-    );
-
+    const tasks = assets.map(async (asset, i) => {
+      const app = Object.values(apps)[i];
+      const dest = path.resolve("node_modules", "temp", asset.name);
+      await downloadReleaseAsset(app.owner, app.repo, asset.id, dest);
+      await app.unzip(dest);
+    });
+    await Promise.all(tasks);
     console.log("Prepare Apps: Done.");
   }
 };
 
-await prepare();
+(async () => {
+  try {
+    await prepare();
+  } catch (error) {
+    console.error("Error during app preparation:", error);
+    process.exit(1);
+  }
+})();

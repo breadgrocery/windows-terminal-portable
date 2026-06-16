@@ -1,6 +1,6 @@
 try {
     if ((Get-Module PSReadLine).Version -lt '2.3.4') {
-        Update-Module PSReadLine -Force
+        Install-Module PSReadLine -RequiredVersion 2.3.4 -Force
     }
     Set-PSReadLineOption `
         -PredictionSource History `
