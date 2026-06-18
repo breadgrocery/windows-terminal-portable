@@ -1,13 +1,24 @@
 try {
-    if ((Get-Module PSReadLine).Version -lt '2.3.4') {
-        Install-Module PSReadLine -RequiredVersion 2.3.4 -Force
+	$MinimumPSReadLineVersion = [version]'2.3.4'
+    $PSReadLineModule = Get-Module -ListAvailable PSReadLine | Sort-Object Version -Descending | Select-Object -First 1
+
+    if (-not $PSReadLineModule -or $PSReadLineModule.Version -lt $MinimumPSReadLineVersion) {
+        Install-Module PSReadLine -Scope CurrentUser -MinimumVersion $MinimumPSReadLineVersion -Force -AllowClobber
     }
-    Set-PSReadLineOption `
-        -PredictionSource History `
-        -PredictionViewStyle InlineView `
-        -ShowToolTips
-    Set-PSReadLineKeyHandler -Chord Tab -Function MenuComplete
+
+    Import-Module PSReadLine -MinimumVersion $MinimumPSReadLineVersion -ErrorAction Stop
+
+    $Options = Get-PSReadLineOption
+
+    if ($Options.PredictionSource -ne 'History') { Set-PSReadLineOption -PredictionSource History }
+
+    if ($Options.PredictionViewStyle -ne 'InlineView') { Set-PSReadLineOption -PredictionViewStyle InlineView }
+
+    if (-not $Options.ShowToolTips) { Set-PSReadLineOption -ShowToolTips }
+
+    $TabHandler = Get-PSReadLineKeyHandler | Where-Object { $_.Key -eq 'Tab' } | Select-Object -First 1
+    if ($TabHandler.Function -ne 'MenuComplete') { Set-PSReadLineKeyHandler -Chord Tab -Function MenuComplete }
 }
 finally {
-    Invoke-Expression (&starship init powershell)
+    if (Get-Command starship -ErrorAction SilentlyContinue) { Invoke-Expression (& starship init powershell) }
 }
