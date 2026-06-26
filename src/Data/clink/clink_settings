@@ -1,9 +1,19 @@
+# name: A suggested command may appear after the cursor
+# type: boolean
+autosuggest.inline=true
+
 # name: Auto-update the Clink program files
-# type: enum
 # options: off,check,prompt,auto
 clink.autoupdate = off
 
 # name: Controls what startup logo to show
-# type: enum
 # options: none,full,short
 clink.logo = none
+
+# name: Controls whether to remove blank lines before the prompt
+# options: normal,compact,sparse
+prompt.spacing=compact
+
+# name: The number of history lines to save
+# type: number
+history.max_lines=999

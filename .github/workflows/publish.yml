@@ -9,7 +9,7 @@ on:
         type: boolean
         required: true
         default: false
-        description: Force publish to Github Release
+        description: Force prepare step to run
 
 permissions: write-all
 
