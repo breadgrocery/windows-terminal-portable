@@ -7,10 +7,7 @@
     "copyOnSelect": false,
     "defaultInputScope": "alphanumericHalfWidth",
     "defaultProfile": "{ea8805bd-5624-4823-b7bd-5fb41c4607be}",
-    "disabledProfileSources": 
-    [
-        "Windows.Terminal.Azure"
-    ],
+    "disabledProfileSources": [],
     "keybindings": 
     [
         {
@@ -64,18 +61,6 @@
                 "hidden": false,
                 "icon": "%SystemRoot%\\System32\\cmd.exe",
                 "name": "Windows Command Prompt"
-            },
-            {
-                "guid": "{0b530625-7942-5e23-b74d-7da65758ae61}",
-                "hidden": true,
-                "name": "Developer PowerShell for VS 2022",
-                "source": "Windows.Terminal.VisualStudio"
-            },
-            {
-                "guid": "{38c80d5b-27ba-5aac-a58a-fbb82adc9cc9}",
-                "hidden": true,
-                "name": "Developer Command Prompt for VS 2022",
-                "source": "Windows.Terminal.VisualStudio"
             },
             {
                 "guid": "{2c4de342-38b7-51cf-b940-2309a097f518}",
