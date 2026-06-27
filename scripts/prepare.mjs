@@ -1,8 +1,44 @@
 import fs from "fs-extra";
 import path from "path";
-import { zip } from "compressing";
+import os from "os";
+import _7z from "7zip-min";
 import { getLatestRelease, downloadReleaseAsset } from "./utils/github.mjs";
 import { updateHash } from "./utils/pkg.mjs";
+
+const unpackArchive = async (archivePath, dest, options = {}) => {
+  const { stripRoot = false } = options;
+  const tempExtractDir = path.join(
+    os.tmpdir(),
+    `wt-portable-unpack-${Date.now()}-${Math.random().toString(16).slice(2)}`
+  );
+
+  await fs.remove(dest);
+  await fs.ensureDir(dest);
+  await fs.ensureDir(tempExtractDir);
+
+  try {
+    await _7z.unpack(archivePath, tempExtractDir);
+
+    if (stripRoot) {
+      const entries = await fs.readdir(tempExtractDir);
+      if (entries.length === 1) {
+        const rootCandidate = path.join(tempExtractDir, entries[0]);
+        const stat = await fs.stat(rootCandidate);
+        if (stat.isDirectory()) {
+          await fs.copy(rootCandidate, dest, {
+            overwrite: true,
+            dereference: true
+          });
+          return;
+        }
+      }
+    }
+
+    await fs.copy(tempExtractDir, dest, { overwrite: true, dereference: true });
+  } finally {
+    await fs.remove(tempExtractDir);
+  }
+};
 
 const appsDir = path.resolve("src", "Apps");
 const apps = {
@@ -12,7 +48,8 @@ const apps = {
     repo: "terminal",
     predicate: (asset) => asset.name.endsWith("_x64.zip"),
     dest: () => path.resolve(appsDir, apps.terminal.name),
-    unzip: (dest) => zip.uncompress(dest, apps.terminal.dest(), { strip: 1 })
+    unzip: (archivePath) =>
+      unpackArchive(archivePath, apps.terminal.dest(), { stripRoot: true })
   },
   powershell: {
     name: "PowerShell",
@@ -20,7 +57,7 @@ const apps = {
     repo: "PowerShell",
     predicate: (asset) => asset.name.endsWith("-win-x64.zip"),
     dest: () => path.resolve(appsDir, apps.powershell.name),
-    unzip: (dest) => zip.uncompress(dest, apps.powershell.dest())
+    unzip: (archivePath) => unpackArchive(archivePath, apps.powershell.dest())
   },
   clink: {
     name: "clink",
@@ -28,7 +65,7 @@ const apps = {
     repo: "clink",
     predicate: (asset) => /\.\w{6}.zip$/.test(asset.name),
     dest: () => path.resolve(appsDir, apps.clink.name),
-    unzip: (dest) => zip.uncompress(dest, apps.clink.dest())
+    unzip: (archivePath) => unpackArchive(archivePath, apps.clink.dest())
   },
   starship: {
     name: "starship",
@@ -36,7 +73,7 @@ const apps = {
     repo: "starship",
     predicate: (asset) => asset.name.endsWith("x86_64-pc-windows-msvc.zip"),
     dest: () => path.resolve(appsDir, apps.starship.name),
-    unzip: (dest) => zip.uncompress(dest, apps.starship.dest())
+    unzip: (archivePath) => unpackArchive(archivePath, apps.starship.dest())
   }
 };
 

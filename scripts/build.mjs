@@ -1,6 +1,6 @@
 import fs from "fs-extra";
 import path from "path";
-import { zip } from "compressing";
+import _7z from "7zip-min";
 
 const appsDir = path.resolve("src", "Apps");
 if (fs.pathExistsSync(appsDir) && fs.readdirSync(appsDir).length > 0) {
@@ -9,9 +9,9 @@ if (fs.pathExistsSync(appsDir) && fs.readdirSync(appsDir).length > 0) {
 
   const dest = path.resolve("dist", "windows-terminal-portable.zip");
 
-  console.log(`Build: Compressing to ${dest}...`);
+  console.log(`Build: Packing to ${dest}...`);
 
-  await zip.compressDir(source, dest, { compress: true, compressionLevel: 9 });
+  await _7z.pack(source, dest);
 
   console.log("Build: Done.");
 } else {

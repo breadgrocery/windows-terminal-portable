@@ -8,10 +8,10 @@
   "devDependencies": {
     "@octokit/rest": "^22.0.1",
     "@types/fs-extra": "^11.0.4",
-    "@types/node": "^25.9.3",
-    "compressing": "^2.1.1",
+    "@types/node": "^24.13.2",
+    "7zip-min": "^3.0.1",
     "fs-extra": "^11.3.5"
   },
-  "packageManager": "pnpm@9.15.0",
+  "packageManager": "pnpm@11.9.0",
   "hash": "sha256:7caef554147e5498ed1becdca73cdedb79fbc81f89032e46ae9b095c53433812,sha256:07ddb0d00b660459560ef82a9841da7705b27cd5dcca5a0d7b025a98eca29eca,sha256:451b8f0fcd5efb64fc1e417813c6deb8c51451dc913a009e442657849cc4b946,sha256:a07cf3e428afab09324e510fb786041ebcc491a68b1ca6fba044c5a461f9b017"
 }

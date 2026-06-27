@@ -23,17 +23,17 @@ jobs:
     steps:
       # Checkout the repository
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       # Install pnpm based on `packageManager` in package.json
       - name: Install pnpm
-        uses: pnpm/action-setup@v4
+        uses: pnpm/action-setup@v6
         with:
           run_install: true
 
       # Install Node.js
       - name: Install Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: 24
 
@@ -45,7 +45,7 @@ jobs:
         run: pnpm build
 
       # Publish to GitHub Releases
-      - uses: softprops/action-gh-release@v2
+      - uses: softprops/action-gh-release@v3
         with:
           tag_name: release
           body: Released on ${{ github.run_id }}
