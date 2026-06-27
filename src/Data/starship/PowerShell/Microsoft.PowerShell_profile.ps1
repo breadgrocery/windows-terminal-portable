@@ -1,24 +1,27 @@
+if ([Console]::IsOutputRedirected -or [Console]::IsInputRedirected) {
+  return
+}
+
 try {
-	$MinimumPSReadLineVersion = [version]'2.3.4'
-    $PSReadLineModule = Get-Module -ListAvailable PSReadLine | Sort-Object Version -Descending | Select-Object -First 1
+  $Module = Get-Module -ListAvailable PSReadLine | Sort-Object Version -Descending | Select-Object -First 1
 
-    if (-not $PSReadLineModule -or $PSReadLineModule.Version -lt $MinimumPSReadLineVersion) {
-        Install-Module PSReadLine -Scope CurrentUser -MinimumVersion $MinimumPSReadLineVersion -Force -AllowClobber
-    }
+  $MinimumPSReadLineVersion = [version]'2.3.4'
+  if (-not $Module -or $Module.Version -lt $MinimumPSReadLineVersion) {
+    Install-Module PSReadLine -Scope CurrentUser -MinimumVersion $MinimumPSReadLineVersion -Force -AllowClobber
+  }
 
-    Import-Module PSReadLine -MinimumVersion $MinimumPSReadLineVersion -ErrorAction Stop
+  Import-Module PSReadLine -MinimumVersion $MinimumPSReadLineVersion -ErrorAction Stop
 
-    $Options = Get-PSReadLineOption
+  Set-PSReadLineOption -PredictionSource History
+  Set-PSReadLineOption -PredictionViewStyle InlineView
+  Set-PSReadLineOption -ShowToolTips
 
-    if ($Options.PredictionSource -ne 'History') { Set-PSReadLineOption -PredictionSource History }
-
-    if ($Options.PredictionViewStyle -ne 'InlineView') { Set-PSReadLineOption -PredictionViewStyle InlineView }
-
-    if (-not $Options.ShowToolTips) { Set-PSReadLineOption -ShowToolTips }
-
-    $TabHandler = Get-PSReadLineKeyHandler | Where-Object { $_.Key -eq 'Tab' } | Select-Object -First 1
-    if ($TabHandler.Function -ne 'MenuComplete') { Set-PSReadLineKeyHandler -Chord Tab -Function MenuComplete }
+  if ((Get-PSReadLineKeyHandler Tab).Function -ne 'MenuComplete') {
+    Set-PSReadLineKeyHandler -Chord Tab -Function MenuComplete
+  }
 }
 finally {
-    if (Get-Command starship -ErrorAction SilentlyContinue) { Invoke-Expression (& starship init powershell) }
+  if (Get-Command starship -ErrorAction SilentlyContinue) {
+    Invoke-Expression (& starship init powershell)
+  }
 }
